@@ -10,7 +10,12 @@ wget "https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz" && \
     sudo apt-get install build-essential -qq && \
     sudo apt-get install libreadline-dev libncurses5-dev zlib1g zlib1g-dev \
         libpcre3 libpcre3-dev libssl-dev perl -qq && \
-    ./configure -j2 --with-pcre-jit --with-ipv6 && \
+    ./configure -j2 \
+        --with-pcre-jit \
+        --with-ipv6 \
+        --with-http_spdy_module \
+        --with-http_v2_module \
+        --with-http_ssl_module && \
     make -j2 && \
     sudo make install && \
     echo "OpenResty installation complete" && \
