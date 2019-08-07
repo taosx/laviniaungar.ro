@@ -28,5 +28,6 @@ wget "https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz" && \
     sudo cp -r openresty-config/* /usr/local/openresty/nginx/ && \
     echo "Enabling OpenResty service to start on boot..." && \
     sudo systemctl daemon-reload && \
+    sudo systemctl enable openresty && \
     sudo systemctl restart openresty && \
     echo "Starting open resty..."
