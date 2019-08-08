@@ -108,22 +108,25 @@ echo "==> Updating & Upgrading system" \
         pcre-${PCRE_VERSION} \
         luarocks-${LUAROCKS_VERSION} \
     && DEBIAN_FRONTEND=noninteractive apt-get autoremove -y \
-    && ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log \
-    && ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log \
     && echo "==> Adding openresty service to systemd..." \
     && cd "$CWD" \
     && sudo cp -f system-config/openresty.service /etc/systemd/system/openresty.service \
     && echo "Setting openresty configuration..." \
-    && sudo mkdir /usr/local/openresty/nginx/sites  \
-    && sudo mkdir /var/log/openresty \
+    && sudo mkdir -p /usr/local/openresty/nginx/sites  \
+    && sudo mkdir -p /var/log/openresty \
+    && sudo mkdir -p /etc/resty-auto-ssl/storage/file \
+    && sudo chown -R www-data:www-data /etc/resty-auto-ssl/ \
     && sudo rm -f /usr/local/openresty/nginx/html/index.html \
-    && sudo mkdir /usr/local/openresty/nginx/html/default \
+    && sudo mkdir -p /usr/local/openresty/nginx/html/default \
     && sudo cp -r openresty-config/* /usr/local/openresty/nginx/ \
     && echo "Enabling OpenResty service to start on boot..." \
     && sudo systemctl daemon-reload \
     && sudo systemctl enable openresty \
     && sudo systemctl restart openresty \
     && echo "Starting open resty..."
+
+# && ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log \
+# && ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log \
     
 # Add additional binaries into PATH for convenience
 PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
