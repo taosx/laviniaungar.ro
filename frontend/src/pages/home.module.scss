@@ -1,0 +1,54 @@
+.hero_text {
+    position: fixed;
+    box-sizing: border-box;
+    padding: 0px 1.0875rem;
+    width: 90%;
+    z-index: 2;
+    transform: translateX(-50%);
+    top: 50%;
+    left: 50%;
+    text-align: left;
+    margin-top: -3em;
+    color: rgb(242, 242, 242);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-shadow: 1px 1px 1px black;
+
+    user-select: none;
+
+    @media only screen and (max-width: 640px) {
+        font-size: 22px;
+        top: 40%;
+    }
+
+    @media only screen and (min-width: 641px) {
+        font-size: 24px;
+    }
+
+    @media only screen and (min-width: 1025px) {
+        font-size: 28px;
+    }
+
+    & h1 {
+        font-family: "Merriweather", serif;
+        font-size: 135%;
+        margin-bottom: 0;
+    }
+
+    & p {
+    text-shadow: 1px 1px 1px rgb(33, 33, 33);
+    font-family: "Raleway", sans-serif;
+        /* font-family: "Roboto Slab", serif; */
+        font-size: 75%;
+    }
+}
+
+/* .quick-action-low { */
+/* position: absolute; */
+/* bottom: 15%; */
+/* left: 50%; */
+/* margin-left: 0px; */
+/* } */

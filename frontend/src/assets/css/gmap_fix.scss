@@ -1,0 +1,28 @@
+div.gm-style {
+
+    button.gm-control-active {
+        height: 30px !important;
+        width: 30px !important;
+
+        img {
+            height: 15px !important;
+            width: 15px !important;
+        }
+    }
+
+    & > div.gmnoprint.gm-bundled-control {
+        bottom: 75px !important;
+        right: 30px !important;
+
+        div.gmnoprint {
+            div[draggable="false"] {
+                height: 60px !important;
+                width: 30px !important;
+
+                div {
+                    width: 20px !important;
+                }
+            }
+        }
+    }
+}

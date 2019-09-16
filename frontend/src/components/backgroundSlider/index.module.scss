@@ -1,0 +1,133 @@
+.background_slider {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+.current {
+    position: relative !important;
+
+    opacity: 1 !important;
+    z-index: -1;
+    animation: myfirst 1s;
+}
+
+.slide {
+    position: absolute !important;
+    top: 0;
+    opacity: 0 !important;
+    z-index: -2;
+}
+
+.background_image {
+    height: 100%;
+    width: 100%;
+    left: 0;
+
+    & > .metadata {
+        color: white;
+        opacity: 0.5;
+        display: flex;
+        flex-direction: column;
+
+        font-size: 1.1em;
+        z-index: 2;
+        position: absolute;
+        left: 0.8em;
+        bottom: 0.5em;
+        color: white;
+        margin: 0;
+        user-select: none;
+    }
+}
+
+.background_tint {
+    /* position: fixed; */
+    z-index: -2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background-color: rgba(0, 0, 0, 0.25); */
+    background-image: radial-gradient(#000 5%, transparent 35%);
+    background-size: 3px 3px;
+}
+
+/* Standard syntax */
+@keyframes myfirst {
+    from {
+        opacity: 0.2;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.loader {
+    position: absolute;
+    color: white;
+    opacity: 0.5;
+    font-size: 1.1em;
+    z-index: 2;
+    right: 0.8em;
+    color: white;
+    margin: 0;
+    margin-top:1em;
+    user-select: none;
+}
+
+.control_wrapper {
+    position: absolute;
+    right: 15px;
+    padding: 5px;
+    /* top: 39%; */
+    bottom: 20%;
+
+    z-index: 3;
+    opacity: 0.99;
+
+    width: 30px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+
+    background: rgba(255, 255, 255, 0.212);
+    color: white;
+
+    @media only screen and (max-width: 490px) {
+        top: unset;
+    }
+
+    .arrow,
+    .pause {
+        cursor: pointer;
+
+        svg {
+            fill: white;
+        }
+
+        @media only screen and (min-width: 840px) {
+            &:hover svg,
+            &:active {
+                fill: rgba(255, 255, 255, 0.598);
+            }
+        }
+    }
+
+    .pause {
+        margin-top: 0.6em;
+    }
+
+    .tracker {
+        font-size: 0.8em;
+        margin-bottom: 10px;
+    }
+}
+
+.space {
+    margin: 1px 0 1px 0px;
+    display: block;
+    content: " ";
+    width: 25px;
+    /* background-color: rgba(255, 255, 255, 0.119); */
+}

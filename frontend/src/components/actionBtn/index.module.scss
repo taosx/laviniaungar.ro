@@ -1,0 +1,60 @@
+.action_btn {
+    outline: 0;
+    box-sizing: border-box;    
+
+    background: white;
+    color: #030303;
+    border: 1px solid white;
+    padding: 5px 18px;
+    margin: 0;
+    
+    font-size: 13px;
+    font-family: Courier;
+
+    width: 118px;
+
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    margin-left: -60px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    z-index: 2;
+
+
+
+    & > i {
+        margin-left: 5px;
+        font-size: 15px;
+        color: black;
+    }
+
+    &:hover {
+        background-color: aliceblue;
+    }
+
+
+    &:active {
+        box-shadow: inset 0em 0em 2px 1px black;
+
+        & > i {
+        }    
+    }
+}
+
+/* .action_btn:before {
+    margin: 0;
+    box-sizing: border-box;
+    position: absolute;
+    content: '';
+    
+    width: 126px;
+    height: 33px;
+
+    border: 1px solid white;
+} */
