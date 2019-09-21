@@ -1,7 +1,7 @@
 import React from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
 
-import styles from "./home.module.scss"
+import styles from "../styles/home.module.scss"
 
 import Icon from "@mdi/react"
 import { mdiForumOutline } from "@mdi/js"

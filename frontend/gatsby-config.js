@@ -8,18 +8,18 @@ module.exports = {
                 link: "/",
                 content: "Home",
             },
-            {
-                link: "/#services",
-                content: "Services",
-            },
-            {
-                link: "/#portfolio",
-                content: "Portfolio",
-            },
-            {
-                link: "/#art-around-art",
-                content: "Art around Art",
-            },
+            // {
+            //     link: "/#services",
+            //     content: "Services",
+            // },
+            // {
+            //     link: "/#portfolio",
+            //     content: "Portfolio",
+            // },
+            // {
+            //     link: "/#art-around-art",
+            //     content: "Art around Art",
+            // },
             {
                 link: "/contact/",
                 content: "Contact",

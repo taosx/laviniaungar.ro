@@ -3,7 +3,7 @@ import { useStaticQuery, graphql } from "gatsby"
 import BackgroundImage from "gatsby-background-image"
 import TextareaAutosize from "react-autosize-textarea"
 
-import styles from "./contact.module.scss"
+import styles from "../styles/contact.module.scss"
 
 import SEO from "../components/seo"
 // import Map from "../components/map"
@@ -19,8 +19,6 @@ const ContactPage = () => {
             ) {
                 edges {
                     node {
-                        relativePath
-                        name
                         childImageSharp {
                             fluid(maxWidth: 4000) {
                                 ...GatsbyImageSharpFluid_withWebp_tracedSVG

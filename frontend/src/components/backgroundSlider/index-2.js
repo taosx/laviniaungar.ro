@@ -18,9 +18,11 @@ import { CSSTransition, TransitionGroup } from "react-transition-group"
 const BackgroundSlider = props => {
     const [cursor, setCursor] = useState(0)
     const [isPaused, setPaused] = useState(false)
-    const [isLoading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [delay, setDelay] = useState(5000)
     const maxLen = props.data.allFile.edges.length - 1
+
+    const isLoading = loading[0] || loading[1]
 
     const _pause = () => {
         setPaused(true)
@@ -37,8 +39,8 @@ const BackgroundSlider = props => {
 
     const _next = reset => () => {
         if (isLoading) return
-
         setCursor(cursor === maxLen ? 0 : cursor + 1)
+        setLoading([false, true])
 
         if (reset) {
             _reset()
@@ -49,37 +51,51 @@ const BackgroundSlider = props => {
         if (isLoading) return
 
         setCursor(cursor === 0 ? maxLen : cursor - 1)
+        setLoading([true, false])
 
         if (reset) {
             _reset()
         }
     }
 
-    const _onLoad = () => {
-        setLoading(false)
+    const _onLoad = inx => () => {
+        if (inx === 2) {
+            setLoading([loading[0], false])
+        }
 
-        if (!isPaused) {
+        if (inx === 0) {
+            setLoading([false, loading[1]])
+        }
+
+        if ((inx === 0 || inx === 2) && !isPaused) {
             _resume()
         }
     }
 
     const _start = () => {
-        useInterval(
-            _next(maxLen, false),
-            isPaused || isLoading ? null : delay,
-            delay
-        )
+        useInterval(_next(maxLen, false), isPaused || isLoading ? null : delay)
+    }
+
+    const listCursors = () => {
+        switch (cursor) {
+            case 0:
+                return [maxLen - 1, cursor, cursor + 1]
+            case maxLen:
+                return [cursor - 1, cursor, 0]
+            default:
+                return [cursor - 1, cursor, cursor + 1]
+        }
     }
 
     _start()
 
-    const [prev, next] = [_prev(true), _next(true)]
+    const [prev, next, cursors] = [_prev(true), _next(true), listCursors()]
 
     const sliderController = (
         <>
             <div className={style.control_wrapper}>
                 <div className={style.tracker}>
-                    {cursor}/{maxLen}
+                    {cursors[1]}/{maxLen}
                 </div>
                 <div className={style.arrow} onClick={next}>
                     <Icon path={mdiArrowRight} title="Next" size={1.1} />
@@ -118,29 +134,30 @@ const BackgroundSlider = props => {
         <div className={`${style.background_slider}`}>
             {sliderController}
 
-            <TransitionGroup component={null}>
-                <CSSTransition
-                    in={cursor != undefined}
-                    key={`slide-${cursor}`}
-                    timeout={2000}
-                    classNames={{ ...style }}
-                    unmountOnExit
-                    mountOnEnter
-                >
-                    <Slide
-                        onStartLoad={({ wasCached }) => {
-                            setLoading(wasCached ? false : true)
+            <TransitionGroup>
+                {cursors.map((cur, inx) => (
+                    <CSSTransition
+                        key={`slide-${inx}`}
+                        in={inx === 1}
+                        timeout={1000}
+                        classNames={style.slide}
+                        classNames={{ ...style }}
+                        onEnter={() => {
+                            console.log("onEnter")
                         }}
-                        onLoad={_onLoad}
-                        imageData={props.data.allFile.edges[cursor].node}
+                        enter
                     >
-                        {props.children && (
+                        <Slide
+                            imageData={props.data.allFile.edges[cur].node}
+                            current={inx === 1}
+                            onLoad={_onLoad(inx, cur)}
+                        >
                             <div className={style.metadata}>
-                                {props.children}
+                                {JSON.stringify(cursors, null, 2)}
                             </div>
-                        )}
-                    </Slide>
-                </CSSTransition>
+                        </Slide>
+                    </CSSTransition>
+                ))}
             </TransitionGroup>
         </div>
     )
@@ -148,34 +165,35 @@ const BackgroundSlider = props => {
 
 const Slide = props => {
     const { onLoad, onStartLoad, imageData, current, children } = props
-
+    const classCSS = current && style.slide_active
     return (
         <BackgroundImage
             Tag={`div`}
-            className={`${style.background_image}`}
+            className={`${style.background_image} ${style.slide}`}
             fluid={imageData.childImageSharp.fluid}
             onLoad={onLoad}
             onStartLoad={onStartLoad}
             fadeIn={false}
             loading={"eager"}
-            backgroundColor={imageData.colors.vibrant}
-            preserveStackingContext={true}
+            critical={true}
+            backgroundColor={imageData.colors.muted}
+            preserveStackingContext={false}
         >
             <div
                 className={style.background_tint}
-                style={{ backgroundColor: `${imageData.colors.vibrant}40` }}
+                style={{ backgroundColor: `${imageData.colors.muted}40` }}
             />
             {children}
         </BackgroundImage>
     )
 }
 
-function useInterval(callback, delay, reset) {
+function useInterval(callback, delay) {
     const savedCallback = useRef()
 
     useEffect(() => {
         savedCallback.current = callback
-    }, [callback, reset])
+    }, [callback])
 
     useEffect(() => {
         function tick() {

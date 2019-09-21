@@ -15,99 +15,48 @@ const Header = ({ siteTitle, navData }) => {
         query {
             placeholderImage: file(relativePath: { eq: "logo-def.png" }) {
                 childImageSharp {
-                    fluid(maxHeight: 60) {
-                        ...GatsbyImageSharpFluid_withWebp_noBase64
+                    fixed(width: 200) {
+                        ...GatsbyImageSharpFixed_withWebp_noBase64
                     }
                 }
             }
         }
     `)
 
-    const [menuOpen, setMenuOpen] = useState(false)
-
-    // Burger Menu
-    const BurgerMenu = (
-        <label
-            className={style.header_hamburger}
-            onClick={() => setMenuOpen(!menuOpen)}
-            htmlFor={style.menu_trigger}
-        >
-            <Icon
-                className={style.menuopen_btn}
-                path={mdiMenu}
-                title="Open Menu"
-                size={1}
-                horizontal
-                vertical
-            />
-
-            <Icon
-                className={style.menuclose_btn}
-                path={mdiClose}
-                title="Close Menu"
-                size={1}
-                horizontal
-                vertical
-            />
-        </label>
-    )
-
     // Navigation List
     navData = navData || [{ link: "/", content: "Home" }]
     const navLinks = navData.map(({ link, content }, inx) => (
-        <li onClick={() => setMenuOpen(false)} key={`list-link-${inx}`}>
+        <li key={`list-link-${inx}`}>
             <Link to={link}>{content}</Link>
         </li>
     ))
 
+    const navLinksGroup1 = navLinks.slice(1, 3)
+    const navLinksGroup2 = navLinks.slice(3)
+
     return (
         <header>
-            {(menuOpen && <style>{`body {overflow: hidden;}`}</style>) || (
-                <style>{`body {overflow: auto;}`}</style>
-            )}
-
-            <input
-                className={style.trigger_input}
-                id={style.menu_trigger}
-                type="checkbox"
-            />
-
-            <label
-                className={style.spacer}
-                htmlFor={style.menu_trigger}
-                onClick={() => setMenuOpen(!menuOpen)}
-            />
-
             <div className={style.header_wrapper}>
                 <div className={style.header} style={{ maxWidth: 960 }}>
-                    {BurgerMenu}
+                    <ul>{navLinksGroup1}</ul>
 
                     <div className={style.header_logo}>
-                        <Link to={"/"} title={siteTitle}>
+                        <Link
+                            to={"/"}
+                            title={siteTitle}
+                            style={{ maxWidth: "200px" }}
+                        >
                             <Img
                                 loading="eager"
                                 fadeIn={false}
-                                fluid={
-                                    data.placeholderImage.childImageSharp.fluid
+                                fixed={
+                                    data.placeholderImage.childImageSharp.fixed
                                 }
                             />
                         </Link>
                     </div>
-
-                    <div className={style.header_search}>
-                        <Icon
-                            className={style.search_btn}
-                            path={mdiMagnify}
-                            title="Close Menu"
-                            size={1}
-                        />
-                    </div>
+                    <ul>{navLinksGroup2}</ul>
                 </div>
-
-                {/* Menu ================== */}
-                <nav className={style.menu}>
-                    <ul>{navLinks}</ul>
-                </nav>
             </div>
         </header>
     )
