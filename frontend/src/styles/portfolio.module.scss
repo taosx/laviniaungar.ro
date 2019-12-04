@@ -29,24 +29,9 @@
     background: linear-gradient(unquote($direction), $stops);
 }
 
-.wrapper {
-    height: 100%;
-    width: 100%;
-
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-
-    background: rgba(198, 198, 198, 0.407);
-
-    background-image: radial-gradient(#fff 0.2%, transparent 7%);
-    background-size: 9px 9px;
-}
-
 .background {
-    position: fixed!important;
-    z-index: -1!important;
-    opacity: 0.99;
+    position: fixed !important;
+    z-index: -1 !important;
     width: 100%;
     background-position: center center;
     background-repeat: no-repeat;
@@ -54,21 +39,68 @@
     height: 100%;
 }
 
-.panels {
+.wrapper {
+    height: 100%;
+    width: 100%;
+
+    background: rgba(0, 0, 0, 0.6);
+
+    background-image: radial-gradient(#fff 0.2%, transparent 7%);
+    background-size: 9px 9px;
+}
+
+.container {
+    margin: 0 auto;
+
+    height: 100%;
+    width: 100%;
+    // max-width: 860px;
+
     display: flex;
-    flex-flow: row nowrap;
-    height: 90%;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+}
+
+.view-bar {
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.323);
+
+    content: " ";
+    width: 100%;
+    z-index: 1;
+
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 0.3em;
+}
+
+.panels {
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 32.9% 32.9% 32.9%;
+    height: 98%;
     justify-content: space-evenly;
+    align-content: space-around;
+    margin-bottom: 0.4em;
 }
 
 .panel {
+    grid-row: 1;
+
+    box-sizing: border-box;
     margin: 0;
-    width: 30%;
+    width: 100%;
     background: grey;
     height: 100%;
     position: relative;
     overflow: hidden;
-    box-shadow: 1px 1px 6px 4px rgba(0, 0, 0, 0.4);
 
     & > .image {
         height: 100%;
@@ -101,6 +133,7 @@
 
     & > .tint {
         position: absolute;
+        opacity: 0;
         top: 0;
         left: 0;
         width: 100%;
@@ -108,5 +141,9 @@
         content: " ";
         display: block;
         z-index: 1;
+
+        &:hover {
+            opacity: 1;
+        }
     }
 }

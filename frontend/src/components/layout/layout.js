@@ -34,14 +34,18 @@ const Layout = ({ children }) => {
         main: {},
     }
 
-    const href = window.location.href.replace(window.location.origin, "")
-    switch (href) {
-        case "/portfolio":
-            styleDynamic.wrapper.height = "100%"
-            styleDynamic.wrapper.display = "flex"
-            styleDynamic.wrapper.flexFlow = "column nowrap"
-            styleDynamic.main.height = "100%"
-            break
+    if (typeof window !== `undefined`) {
+        const href = window.location.href.replace(window.location.origin, "")
+
+        switch (href) {
+            case "/portfolio/":
+            case "/portfolio":
+                styleDynamic.wrapper.height = "100%"
+                styleDynamic.wrapper.display = "flex"
+                styleDynamic.wrapper.flexFlow = "column nowrap"
+                styleDynamic.main.height = "100%"
+                break
+        }
     }
 
     const width = useWindowWidth()
@@ -66,10 +70,13 @@ const Layout = ({ children }) => {
 }
 
 function useWindowWidth() {
-    const [width, setWidth] = useState(window.innerWidth)
+    const innerWidth = () =>
+        typeof window !== `undefined` ? window.innerWidth : 430
+
+    const [width, setWidth] = useState(innerWidth())
 
     useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth)
+        const handleResize = () => setWidth(innerWidth())
         window.addEventListener("resize", handleResize)
         return () => {
             window.removeEventListener("resize", handleResize)

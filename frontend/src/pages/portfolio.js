@@ -6,7 +6,10 @@ import styles from "../styles/portfolio.module.scss"
 import SEO from "../components/seo"
 import BackgroundImage from "gatsby-background-image"
 
-import clamp from "lodash/fp/clamp"
+// import clamp from "lodash/fp/clamp"
+
+import Icon from "@mdi/react"
+import { mdiViewArray, mdiViewModule } from "@mdi/js"
 
 const PortfolioPage = () => {
     const data = useStaticQuery(graphql`
@@ -55,29 +58,49 @@ const PortfolioPage = () => {
     return (
         <>
             <BackgroundImage
-                fluid={data.allFile.edges[panels[1]].node.childImageSharp.fluid}
+                fluid={data.allFile.edges[7].node.childImageSharp.fluid}
                 className={styles.background}
             ></BackgroundImage>
 
             <SEO title="Portfolio" />
             <div className={styles.wrapper}>
-                <div className={styles.panels}>
-                    {panels.map(inx => {
-                        return (
-                            <Panel
-                                key={`panel-${inx}`}
-                                fluid={
-                                    data.allFile.edges[inx].node.childImageSharp
-                                        .fluid
-                                }
-                                title={data.allFile.edges[inx].node.name}
-                                description={
-                                    data.allFile.edges[inx].node.relativePath
-                                }
-                                colors={data.allFile.edges[inx].node.colors}
-                            ></Panel>
-                        )
-                    })}
+                <div className={styles.container}>
+                    <div className={styles.panels}>
+                        {/* <div className={styles.viewBar}>
+                            <Icon
+                                path={mdiViewModule}
+                                title="Chat with us"
+                                size={1.3}
+                                style={{}}
+                                color={"#303030c0"}
+                            />
+
+                            <Icon
+                                path={mdiViewArray}
+                                title="Chat with us"
+                                size={1.3}
+                                style={{}}
+                                color={"#303030c0"}
+                            />
+                        </div> */}
+                        {panels.map(inx => {
+                            return (
+                                <Panel
+                                    key={`panel-${inx}`}
+                                    fluid={
+                                        data.allFile.edges[inx].node
+                                            .childImageSharp.fluid
+                                    }
+                                    title={data.allFile.edges[inx].node.name}
+                                    description={
+                                        data.allFile.edges[inx].node
+                                            .relativePath
+                                    }
+                                    colors={data.allFile.edges[inx].node.colors}
+                                ></Panel>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
         </>
@@ -87,8 +110,8 @@ const PortfolioPage = () => {
 const Panel = props => {
     const [hovered, setHovered] = useState(false)
 
-    const colorSecondary = `${props.colors.muted}${hovered ? "c0" : "90"}`
-    const colorMain = `${props.colors.lightVibrant}${hovered ? "d0" : "90"}`
+    const colorSecondary = `${props.colors.muted}${hovered ? "60" : "50"}`
+    const colorMain = `${props.colors.lightVibrant}${hovered ? "60" : "50"}`
 
     return (
         <figure

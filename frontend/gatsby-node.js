@@ -4,7 +4,45 @@
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
 
-// You can delete this file if you're not using it
+// exports.onCreateNode = ({ node, actions, getNode }) => {
+//     const { createNodeField } = actions
+
+//     console.log(JSON.stringify(node, null, 2))
+
+//     // if (node.internal.type === `MarkdownRemark`) {
+//     //   const value = createFilePath({ node, getNode })
+//     //   createNodeField({
+//     //     name: `slug`,
+//     //     node,
+//     //     value,
+//     //   })
+//     // }
+// }
+
+const path = require("path")
+
+exports.onCreateNode = ({ node, getNodesByType, actions }) => {
+    const { createParentChildLink } = actions
+
+    if (
+        node.internal.type === "Directory" &&
+        node.sourceInstanceName === "portfolio"
+    ) {
+        // in some case the trailing slash is missing.
+        // Always add it and normalize the path to remove duplication
+        const parentDirectory = path.normalize(node.dir + "/")
+        const parent = getNodesByType("Directory").find(
+            n => path.normalize(n.absolutePath + "/") === parentDirectory
+        )
+        if (parent) {
+            node.parent = parent.id
+            createParentChildLink({
+                child: node,
+                parent: parent,
+            })
+        }
+    }
+}
 
 // exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
 //     const { createNode } = actions

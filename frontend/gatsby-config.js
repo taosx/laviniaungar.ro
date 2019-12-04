@@ -8,18 +8,18 @@ module.exports = {
                 link: "/",
                 content: "Home",
             },
-            // {
-            //     link: "/#services",
-            //     content: "Services",
-            // },
-            // {
-            //     link: "/#portfolio",
-            //     content: "Portfolio",
-            // },
-            // {
-            //     link: "/#art-around-art",
-            //     content: "Art around Art",
-            // },
+            {
+                link: "/#services",
+                content: "Services",
+            },
+            {
+                link: "/portfolio",
+                content: "Portfolio",
+            },
+            {
+                link: "/#art-around-art",
+                content: "Art around Art",
+            },
             {
                 link: "/contact/",
                 content: "Contact",
@@ -51,6 +51,13 @@ module.exports = {
             options: {
                 name: `slides`,
                 path: `${__dirname}/slideshow`,
+            },
+        },
+        {
+            resolve: `gatsby-source-filesystem`,
+            options: {
+                path: `${__dirname}/portfolio`,
+                name: `portfolio`,
             },
         },
         {

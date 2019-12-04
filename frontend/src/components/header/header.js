@@ -25,14 +25,14 @@ const Header = ({ siteTitle, navData }) => {
 
     // Navigation List
     navData = navData || [{ link: "/", content: "Home" }]
-    const navLinks = navData.map(({ link, content }, inx) => (
+    const navLinks = navData.slice(1).map(({ link, content }, inx) => (
         <li key={`list-link-${inx}`}>
             <Link to={link}>{content}</Link>
         </li>
     ))
 
-    const navLinksGroup1 = navLinks.slice(1, 3)
-    const navLinksGroup2 = navLinks.slice(3)
+    const navLinksGroup1 = navLinks.slice(0, navLinks.length / 2)
+    const navLinksGroup2 = navLinks.slice(navLinks.length / 2)
 
     return (
         <header>
