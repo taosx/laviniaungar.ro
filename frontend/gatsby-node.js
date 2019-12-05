@@ -24,25 +24,46 @@ const path = require("path")
 exports.onCreateNode = ({ node, getNodesByType, actions }) => {
     const { createParentChildLink } = actions
 
-    if (
-        node.internal.type === "Directory" &&
-        node.sourceInstanceName === "portfolio"
-    ) {
-        // in some case the trailing slash is missing.
-        // Always add it and normalize the path to remove duplication
-        const parentDirectory = path.normalize(node.dir + "/")
-        const parent = getNodesByType("Directory").find(
-            n => path.normalize(n.absolutePath + "/") === parentDirectory
-        )
-        if (parent) {
-            node.parent = parent.id
-            createParentChildLink({
-                child: node,
-                parent: parent,
-            })
+    if (node.internal.type === "Directory") {
+        if (node.sourceInstanceName === "portfolio") {
+            // in some case the trailing slash is missing.
+            // Always add it and normalize the path to remove duplication
+            const parentDirectory = path.normalize(node.dir + "/")
+            const parent = getNodesByType("Directory").find(
+                n => path.normalize(n.absolutePath + "/") === parentDirectory
+            )
+            if (parent) {
+                node.parent = parent.id
+                createParentChildLink({
+                    child: node,
+                    parent: parent,
+                })
+            }
         }
     }
 }
+
+// exports.onCreateNode = ({ node, getNodesByType, actions }) => {
+//     const { createParentChildLink } = actions
+
+//     if (
+//         node.sourceInstanceName === "portfolio" && node.internal.type === "Directory"
+//     ) {
+//         // in some case the trailing slash is missing.
+//         // Always add it and normalize the path to remove duplication
+//         const parentDirectory = path.normalize(node.dir + "/")
+//         const parent = getNodesByType("Directory").find(
+//             n => path.normalize(n.absolutePath + "/") === parentDirectory
+//         )
+//         if (parent) {
+//             node.parent = parent.id
+//             createParentChildLink({
+//                 child: node,
+//                 parent: parent,
+//             })
+//         }
+//     }
+// }
 
 // exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
 //     const { createNode } = actions
